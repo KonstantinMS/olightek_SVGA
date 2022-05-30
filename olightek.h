@@ -65,6 +65,7 @@
 #define		PATTERN_VER_HOR_LINES					0b00000110
 #define		PATTERN_DNU								0b00000111
 
+#define		CPU_FREQ
 
 class olightek
 {
@@ -85,16 +86,18 @@ class olightek
 		bool olightek_contrast		(uint8_t value);			// Установка контрастности дисплея
 		bool olightek_vCom			(uint8_t value);			// Установка напряжения катода дисплея
 		void olightek_turnOnMaxLuminance (void);				// Включить максимальную яркость дисплея (не рекомендуется включать на долго)
+		void olightek_changePattern (void);						// Сменить шаблон на следующий
 
 	private:
 	/**	ВНУТРЕННИЕ ПЕРЕМЕННЫЕ **/
-		uint8_t				displayAddr;
+		uint8_t				displayAddr;						// I2C адрес дисплея
 		//you can set your default value here
 		uint8_t				vCom = 0x80;
 		uint8_t				brightness = 0x80;
 		uint8_t				contrast = 0x80;
+		uint8_t				selectedPattern = PATTERN_VER_HOR_LINES;
 	/**	ВНУТРЕННИЕ ФУНКЦИИ **/
 		uint8_t 			_within					(uint8_t value, uint8_t min, uint8_t max); // Проверка нахождения значения в диапазоне
-		bool				_sendRegisterSetting	(uint8_t reg, uint8_t value); //	Объявляем  функцию отправки настройки в регистр дисплея
+		bool				_sendRegisterSetting	(uint8_t reg, uint8_t value); // Объявляем  функцию отправки настройки в регистр дисплея
 };
 #endif

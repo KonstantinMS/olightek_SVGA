@@ -16,7 +16,7 @@ display.olightek_init();
 ```
 * Установить желаюмую яркость с помощью функций  
 ```cpp
-bool olightek_brightness	(uint8_t value);			// Установка яркости дисплея
-bool olightek_contrast		(uint8_t value);			// Установка контрастности дисплея
-bool olightek_vCom			(uint8_t value);			// Установка напряжения катода дисплея
+bool olightek_brightness    (uint8_t value);			// Установка яркости дисплея
+bool olightek_contrast      (uint8_t value);			// Установка контрастности дисплея
+bool olightek_vCom          (uint8_t value);			// Установка напряжения катода дисплея
 ```

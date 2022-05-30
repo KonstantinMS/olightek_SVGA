@@ -1,4 +1,4 @@
-#include "olightek.h" 
+#include "olightek.h"
 
 /*!
     @brief  минимальная инициализация для включения
@@ -29,7 +29,7 @@ void olightek :: olightek_init_pattern(void)
     // Регистр напряжения катода -3V - 0V (20 - FF)
     _sendRegisterSetting( VCOM_LEVEL                    , vCom );
     //Регистр шаблона
-    _sendRegisterSetting( PATTERN						, PATTERN_COLOR_BAR );
+    _sendRegisterSetting( PATTERN						, selectedPattern );
 	// Регистр включения
     _sendRegisterSetting( VIDEO_DISPLAY_CONTROL_REGISTER, VDCR_DISPLAY_ON | VDCR_VSCAN_TOP2BOTTOM | VDCR_HSCAN_LEFT2RIGHT );
 }
@@ -94,6 +94,20 @@ bool olightek :: olightek_vCom (uint8_t value)
 }
 
 /*!
+    @brief  Изменить отображаемый шаблон
+    @return none (void).
+    @note	шаблоны меняются по кругу
+*/
+void olightek :: olightek_changePattern (void)
+{
+	// увеличиваем шаблон на 1 в диапазоне от 0b000 до 0b111
+	selectedPattern = (selectedPattern + 1) % 0b1000;
+	// Регистр шаблона
+	_sendRegisterSetting( PATTERN, selectedPattern );
+}
+
+
+/*!
     @brief  Отправка байта регистр дисплея
     @param  register
             адрес регистра
@@ -108,7 +122,7 @@ bool olightek :: _sendRegisterSetting(uint8_t reg, uint8_t value)
 	/// user code
     #pragma message ("use your i2c function here")
     /** Далее используйте свою функцию I2C для передачи значений регистров в дисплей **/
-    MSS_I2C_write(&g_mss_i2c0, olightek::displayAddr, data, 2, MSS_I2C_RELEASE_BUS);
+    MSS_I2C_write(&g_mss_i2c0, displayAddr, data, 2, MSS_I2C_RELEASE_BUS);
     if (MSS_I2C_wait_complete(&g_mss_i2c0, 0x3000) != MSS_I2C_SUCCESS)
     {
         return false;
