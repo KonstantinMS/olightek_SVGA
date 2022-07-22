@@ -47,6 +47,14 @@
 #define		VRG_H_POL_ACTIVE_LOW					0b00000001
 #define		VRG_H_POL_ACTIVE_HIGH					0b00000000
 
+#define		NTSC_PAL_SCALING						0x07		//Down Scaling for NTSC & PAL Video
+#define		NPS_V_SCALE_1_1							0b00000000
+#define		NPS_V_SCALE_6_5							0b00000100
+#define		NPS_H_SCALE_1_1							0b00000000
+#define		NPS_H_SCALE_11_10						0b00000001
+#define		NPS_H_SCALE_9_8							0b00000010
+#define		NPS_H_SCALE_NONE						0b00000011
+
 #define		CTRL_BRIGHTNESS							0x08		// Brightness control
 #define		CTRL_BRIGHTNESS_MAX						0xFF
 #define		CTRL_BRIGHTNESS_MIN						0x00
@@ -54,6 +62,11 @@
 #define		CTRL_CONTRAST							0x09		// Contrast control
 #define		CTRL_CONTRAST_MAX						0xFF
 #define		CTRL_CONTRAST_MIN						0x00
+
+#define		DISPLAY_LEFT_MARGIN						0x11		//Display Left Margin
+#define		DISPLAY_RIGHT_MARGIN					0x12		//Display Right Margin
+#define		DISPLAY_TOP_MARGIN						0x13		//Display Top Margin
+#define		DISPLAY_BOTTOM_MARGIN					0x14		//Display Bottom Margin
 
 #define		PATTERN									0x4A		// Select Test Pattern
 #define		PATTERN_OFF								0b00000000
@@ -82,6 +95,8 @@ class olightek
 	/**	ПОЛЬЗОВАТЕЛЬСКИЕ ФУНКЦИИ **/
 		void olightek_init			(void);						// Инициализация дисплея для работы
 		void olightek_init_pattern	(void);						// Инициализация дисплея и включение шаблона
+		void olightek_PAL 			(void);						// BT-656 PAL 720*480 -> 640*480
+		void olightek_PAL_SQ		(void);						// BT-656 PAL 768*676 -> 768*576
 		bool olightek_brightness	(uint8_t value);			// Установка яркости дисплея
 		bool olightek_contrast		(uint8_t value);			// Установка контрастности дисплея
 		bool olightek_vCom			(uint8_t value);			// Установка напряжения катода дисплея

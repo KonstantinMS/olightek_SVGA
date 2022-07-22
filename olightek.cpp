@@ -35,6 +35,36 @@ void olightek :: olightek_init_pattern(void)
 }
 
 /*!
+    @brief  Включить режим PAL, как в Register Settings Example
+    @return none (void).
+    @note
+*/
+void olightek :: olightek_PAL (void)
+{
+	_sendRegisterSetting( INPUT_VIDEO_TYPE              , IVT_DATA_MODE_8YCBCR422 | IVT_SCAN_MODE_INTER );
+	_sendRegisterSetting( NTSC_PAL_SCALING              , NPS_V_SCALE_6_5 | NPS_H_SCALE_11_10 );
+	_sendRegisterSetting( DISPLAY_LEFT_MARGIN           , 0x52 );
+	_sendRegisterSetting( DISPLAY_RIGHT_MARGIN          , 0x52 );
+	_sendRegisterSetting( DISPLAY_TOP_MARGIN            , 0x52 );
+	_sendRegisterSetting( DISPLAY_BOTTOM_MARGIN         , 0x3E );
+}
+
+/*!
+    @brief  Включить режим PAL (SQ), как в Register Settings Example
+    @return none (void).
+    @note
+*/
+void olightek :: olightek_PAL_SQ (void)
+{
+	_sendRegisterSetting( INPUT_VIDEO_TYPE              , IVT_DATA_MODE_8YCBCR422 | IVT_SCAN_MODE_INTER );
+	_sendRegisterSetting( NTSC_PAL_SCALING              , NPS_V_SCALE_1_1 | NPS_H_SCALE_1_1 );
+	_sendRegisterSetting( DISPLAY_LEFT_MARGIN           , 0x12 );
+	_sendRegisterSetting( DISPLAY_RIGHT_MARGIN          , 0x12 );
+	_sendRegisterSetting( DISPLAY_TOP_MARGIN            , 0x14 );
+	_sendRegisterSetting( DISPLAY_BOTTOM_MARGIN         , 0x0E );
+}
+
+/*!
     @brief  Включить все настройки светимости на максимум
     @return none (void).
     @note	не включать на длительное время, можно повредить дисплей
@@ -112,7 +142,7 @@ void olightek :: olightek_changePattern (void)
     @param  register
             адрес регистра
     @param  value
-            передаваемое значение 
+            передаваемое значение
     @return верно, если команда успешно передана
     @note   
 */
