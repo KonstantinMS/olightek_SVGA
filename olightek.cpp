@@ -10,13 +10,13 @@ void olightek :: olightek_init(void)
     // Регистр напряжения катода, указанное в классе по умолчанию
     olightek_vCom(vCom);
     // Формат видеопотока
-    _sendRegisterSetting( INPUT_VIDEO_TYPE               , IVT_DATA_MODE_24RGB444 | IVT_SYNC_MODE_EMBEDDED1 | IVT_SCAN_MODE_NONINTER );
+    sendRegisterSetting( INPUT_VIDEO_TYPE               , IVT_DATA_MODE_24RGB444 | IVT_SYNC_MODE_EMBEDDED1 | IVT_SCAN_MODE_NONINTER );
     // Регистр настройки синхронизации: HS и VS низким уровнем
-    _sendRegisterSetting( VIDEO_RELATED_REGISTERS        , VRG_V_POL_ACTIVE_LOW | VRG_H_POL_ACTIVE_LOW );
+    sendRegisterSetting( VIDEO_RELATED_REGISTERS        , VRG_V_POL_ACTIVE_LOW | VRG_H_POL_ACTIVE_LOW );
 	// Регистр включения
-    _sendRegisterSetting( VIDEO_DISPLAY_CONTROL_REGISTER , VDCR_DISPLAY_ON | VDCR_VSCAN_BOTTOM2TOP | VDCR_HSCAN_LEFT2RIGHT );
+    sendRegisterSetting( VIDEO_DISPLAY_CONTROL_REGISTER , VDCR_DISPLAY_ON | VDCR_VSCAN_BOTTOM2TOP | VDCR_HSCAN_LEFT2RIGHT );
     //зеленый
-    _sendRegisterSetting( VIDEO_DISPLAY_CONTROL_REGISTER , VDCR_DISPLAY_ON | VDCR_VSCAN_TOP2BOTTOM | VDCR_HSCAN_RIGHT2LEFT );
+    sendRegisterSetting( VIDEO_DISPLAY_CONTROL_REGISTER , VDCR_DISPLAY_ON | VDCR_VSCAN_TOP2BOTTOM | VDCR_HSCAN_RIGHT2LEFT );
 }
 
 /*!
@@ -27,11 +27,11 @@ void olightek :: olightek_init(void)
 void olightek :: olightek_init_pattern(void)
 {
     // Регистр напряжения катода -3V - 0V (20 - FF)
-    _sendRegisterSetting( VCOM_LEVEL                    , vCom );
+    sendRegisterSetting( VCOM_LEVEL                    , vCom );
     //Регистр шаблона
-    _sendRegisterSetting( PATTERN						, selectedPattern );
+    sendRegisterSetting( PATTERN						, selectedPattern );
 	// Регистр включения
-    _sendRegisterSetting( VIDEO_DISPLAY_CONTROL_REGISTER, VDCR_DISPLAY_ON | VDCR_VSCAN_TOP2BOTTOM | VDCR_HSCAN_LEFT2RIGHT );
+    sendRegisterSetting( VIDEO_DISPLAY_CONTROL_REGISTER, VDCR_DISPLAY_ON | VDCR_VSCAN_TOP2BOTTOM | VDCR_HSCAN_LEFT2RIGHT );
 }
 
 /*!
@@ -41,12 +41,12 @@ void olightek :: olightek_init_pattern(void)
 */
 void olightek :: olightek_PAL (void)
 {
-	_sendRegisterSetting( INPUT_VIDEO_TYPE              , IVT_DATA_MODE_8YCBCR422 | IVT_SCAN_MODE_INTER );
-	_sendRegisterSetting( NTSC_PAL_SCALING              , NPS_V_SCALE_6_5 | NPS_H_SCALE_11_10 );
-	_sendRegisterSetting( DISPLAY_LEFT_MARGIN           , 0x52 );
-	_sendRegisterSetting( DISPLAY_RIGHT_MARGIN          , 0x52 );
-	_sendRegisterSetting( DISPLAY_TOP_MARGIN            , 0x52 );
-	_sendRegisterSetting( DISPLAY_BOTTOM_MARGIN         , 0x3E );
+	sendRegisterSetting( INPUT_VIDEO_TYPE              , IVT_DATA_MODE_8YCBCR422 | IVT_SCAN_MODE_INTER );
+	sendRegisterSetting( NTSC_PAL_SCALING              , NPS_V_SCALE_6_5 | NPS_H_SCALE_11_10 );
+	sendRegisterSetting( DISPLAY_LEFT_MARGIN           , 0x52 );
+	sendRegisterSetting( DISPLAY_RIGHT_MARGIN          , 0x52 );
+	sendRegisterSetting( DISPLAY_TOP_MARGIN            , 0x52 );
+	sendRegisterSetting( DISPLAY_BOTTOM_MARGIN         , 0x3E );
 }
 
 /*!
@@ -56,12 +56,12 @@ void olightek :: olightek_PAL (void)
 */
 void olightek :: olightek_PAL_SQ (void)
 {
-	_sendRegisterSetting( INPUT_VIDEO_TYPE              , IVT_DATA_MODE_8YCBCR422 | IVT_SCAN_MODE_INTER );
-	_sendRegisterSetting( NTSC_PAL_SCALING              , NPS_V_SCALE_1_1 | NPS_H_SCALE_1_1 );
-	_sendRegisterSetting( DISPLAY_LEFT_MARGIN           , 0x12 );
-	_sendRegisterSetting( DISPLAY_RIGHT_MARGIN          , 0x12 );
-	_sendRegisterSetting( DISPLAY_TOP_MARGIN            , 0x14 );
-	_sendRegisterSetting( DISPLAY_BOTTOM_MARGIN         , 0x0E );
+	sendRegisterSetting( INPUT_VIDEO_TYPE              , IVT_DATA_MODE_8YCBCR422 | IVT_SCAN_MODE_INTER );
+	sendRegisterSetting( NTSC_PAL_SCALING              , NPS_V_SCALE_1_1 | NPS_H_SCALE_1_1 );
+	sendRegisterSetting( DISPLAY_LEFT_MARGIN           , 0x12 );
+	sendRegisterSetting( DISPLAY_RIGHT_MARGIN          , 0x12 );
+	sendRegisterSetting( DISPLAY_TOP_MARGIN            , 0x14 );
+	sendRegisterSetting( DISPLAY_BOTTOM_MARGIN         , 0x0E );
 }
 
 /*!
@@ -89,7 +89,7 @@ void olightek :: olightek_turnOnMaxLuminance (void)
 bool olightek :: olightek_brightness (uint8_t value)
 {
 	brightness = value;
-	return _sendRegisterSetting( CTRL_BRIGHTNESS, brightness);
+	return sendRegisterSetting( CTRL_BRIGHTNESS, brightness);
 }
 
 /*!
@@ -105,7 +105,7 @@ bool olightek :: olightek_brightness (uint8_t value)
 bool olightek :: olightek_contrast (uint8_t value)
 {
 	contrast = value;
-	return _sendRegisterSetting( CTRL_CONTRAST, contrast);
+	return sendRegisterSetting( CTRL_CONTRAST, contrast);
 }
 
 /*!
@@ -120,7 +120,7 @@ bool olightek :: olightek_contrast (uint8_t value)
 bool olightek :: olightek_vCom (uint8_t value)
 {
 	vCom = _within(value, VCOM_LEVEL_MIN, VCOM_LEVEL_MAX);
-	return _sendRegisterSetting( VCOM_LEVEL, vCom);
+	return sendRegisterSetting( VCOM_LEVEL, vCom);
 }
 
 /*!
@@ -133,7 +133,7 @@ void olightek :: olightek_changePattern (void)
 	// увеличиваем шаблон на 1 в диапазоне от 0b000 до 0b111
 	selectedPattern = (selectedPattern + 1) % 0b1000;
 	// Регистр шаблона
-	_sendRegisterSetting( PATTERN, selectedPattern );
+	sendRegisterSetting( PATTERN, selectedPattern );
 }
 
 
@@ -146,20 +146,7 @@ void olightek :: olightek_changePattern (void)
     @return верно, если команда успешно передана
     @note   
 */
-bool olightek :: _sendRegisterSetting(uint8_t reg, uint8_t value)
-{
-    uint8_t data[2] = {reg, value};
-	/// user code
-    #pragma message ("use your i2c function here")
-    /** Далее используйте свою функцию I2C для передачи значений регистров в дисплей **/
-    MSS_I2C_write(&g_mss_i2c0, displayAddr, data, 2, MSS_I2C_RELEASE_BUS);
-    if (MSS_I2C_wait_complete(&g_mss_i2c0, 0x3000) != MSS_I2C_SUCCESS)
-    {
-        return false;
-    }
-    /// end user code
-    return true;
-}
+
 
 /*!
     @brief  Проверка нахождения значения в диапазоне
