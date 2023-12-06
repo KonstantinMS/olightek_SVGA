@@ -74,18 +74,13 @@
 
 #define		CPU_FREQ
 
-class olightek
+class Olightek
 {
 /**	КОНСТРУКТОР КЛАССА **/
 public:
-	olightek	(void)
-	{
-		displayAddr = 0x0F;
-	}
-	olightek	(uint8_t address)
-	{
-		displayAddr = address;
-	}
+	Olightek	(void);
+	Olightek	(uint8_t address);
+
 	virtual bool sendRegisterSetting	(uint8_t reg, uint8_t value) = 0; // Объявляем чистую виртуальную функцию отправки настройки в регистр дисплея
 /**	ПОЛЬЗОВАТЕЛЬСКИЕ ФУНКЦИИ **/
 	void olightek_init			(void);						// Инициализация дисплея для работы

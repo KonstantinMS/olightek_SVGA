@@ -1,7 +1,7 @@
 #pragma once
 #include "olightek.h"
 
-class Display : public olightek
+class Display : public Olightek
 {
 public:
     Display	();

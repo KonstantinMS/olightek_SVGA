@@ -7,7 +7,7 @@ int main()
 {
     Display display;
     display.olightek_init();
-    //TODO: проверка на отработку ограничений регистров класса olightek
+    //TODO: проверка на отработку ограничений регистров класса Olightek
 
     return 0;
 }

@@ -1,11 +1,25 @@
 #include "olightek.h"
+/*!
+    @brief  Конструктор, с адресом и без
+    @return none 
+    @note   
+*/
+Olightek :: Olightek	(void)
+{
+    displayAddr = 0x0F;
+}
+
+Olightek :: Olightek	(uint8_t address)
+{
+    displayAddr = address;
+}
 
 /*!
     @brief  минимальная инициализация для включения
     @return none (void).
     @note   
 */
-void olightek :: olightek_init(void)
+void Olightek :: olightek_init(void)
 {
     // Регистр напряжения катода, указанное в классе по умолчанию
     olightek_vCom(vCom);
@@ -24,7 +38,7 @@ void olightek :: olightek_init(void)
     @return none (void).
     @note
 */
-void olightek :: olightek_init_pattern(void)
+void Olightek :: olightek_init_pattern(void)
 {
     // Регистр напряжения катода -3V - 0V (20 - FF)
     sendRegisterSetting( VCOM_LEVEL                    , vCom );
@@ -39,7 +53,7 @@ void olightek :: olightek_init_pattern(void)
     @return none (void).
     @note
 */
-void olightek :: olightek_PAL (void)
+void Olightek :: olightek_PAL (void)
 {
 	sendRegisterSetting( INPUT_VIDEO_TYPE              , IVT_DATA_MODE_8YCBCR422 | IVT_SCAN_MODE_INTER );
 	sendRegisterSetting( NTSC_PAL_SCALING              , NPS_V_SCALE_6_5 | NPS_H_SCALE_11_10 );
@@ -54,7 +68,7 @@ void olightek :: olightek_PAL (void)
     @return none (void).
     @note
 */
-void olightek :: olightek_PAL_SQ (void)
+void Olightek :: olightek_PAL_SQ (void)
 {
 	sendRegisterSetting( INPUT_VIDEO_TYPE              , IVT_DATA_MODE_8YCBCR422 | IVT_SCAN_MODE_INTER );
 	sendRegisterSetting( NTSC_PAL_SCALING              , NPS_V_SCALE_1_1 | NPS_H_SCALE_1_1 );
@@ -69,7 +83,7 @@ void olightek :: olightek_PAL_SQ (void)
     @return none (void).
     @note	не включать на длительное время, можно повредить дисплей
 */
-void olightek :: olightek_turnOnMaxLuminance (void)
+void Olightek :: olightek_turnOnMaxLuminance (void)
 {
 	olightek_vCom (0x50);
 	olightek_brightness (0x80);
@@ -86,7 +100,7 @@ void olightek :: olightek_turnOnMaxLuminance (void)
     @return верно, если удалось изменить яркость
     @note	запоминаем яркость в brightness класса
 */
-bool olightek :: olightek_brightness (uint8_t value)
+bool Olightek :: olightek_brightness (uint8_t value)
 {
 	brightness = value;
 	return sendRegisterSetting( CTRL_BRIGHTNESS, brightness);
@@ -102,7 +116,7 @@ bool olightek :: olightek_brightness (uint8_t value)
     @return верно, если удалось изменить контрастность
     @note	запоминаем яркость в contrast класса
 */
-bool olightek :: olightek_contrast (uint8_t value)
+bool Olightek :: olightek_contrast (uint8_t value)
 {
 	contrast = value;
 	return sendRegisterSetting( CTRL_CONTRAST, contrast);
@@ -117,7 +131,7 @@ bool olightek :: olightek_contrast (uint8_t value)
     @return верно, если удалось изменить напряжение катода
     @note	запоминаем напряжения в Vcom класса
 */
-bool olightek :: olightek_vCom (uint8_t value)
+bool Olightek :: olightek_vCom (uint8_t value)
 {
 	vCom = _within(value, VCOM_LEVEL_MIN, VCOM_LEVEL_MAX);
 	return sendRegisterSetting( VCOM_LEVEL, vCom);
@@ -128,7 +142,7 @@ bool olightek :: olightek_vCom (uint8_t value)
     @return none (void).
     @note	шаблоны меняются по кругу
 */
-void olightek :: olightek_changePattern (void)
+void Olightek :: olightek_changePattern (void)
 {
 	// увеличиваем шаблон на 1 в диапазоне от 0b000 до 0b111
 	selectedPattern = (selectedPattern + 1) % 0b1000;
@@ -159,7 +173,7 @@ void olightek :: olightek_changePattern (void)
     @return если в диапазоне, возвращает входное значение, иначе крайнее значение диапазона
     @note
 */
-uint8_t olightek :: _within(uint8_t value, uint8_t min, uint8_t max)
+uint8_t Olightek :: _within(uint8_t value, uint8_t min, uint8_t max)
 {
 	if (value < min)
 		value = min;
